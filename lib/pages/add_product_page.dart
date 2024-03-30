@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stock_trace/core/book.dart';
+import 'package:stock_trace/core/resolve_future.dart';
+import 'package:stock_trace/pages/book_page.dart';
 
 class AddProductPage extends StatefulWidget {
   final Book book;
@@ -39,7 +41,19 @@ class _AddProductPage extends State<AddProductPage> {
                     child: ElevatedButton(
                       child: const Text("Save"),
                       onPressed: () {
-                        //
+                        resolveFuture(
+                          context,
+                          widget.book.addProduct(
+                            name: nameController.text,
+                          ),
+                          (value) {
+                            Navigator.of(context).pop(context);
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: ((context) =>
+                                    BookPage(book: widget.book))));
+                          },
+                          message: "Adding product",
+                        );
                       },
                     ),
                   ),

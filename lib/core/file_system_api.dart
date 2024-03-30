@@ -23,9 +23,10 @@ class FileSystemApi {
 
   Future<Book> createBook() async {
     String name = DateTime.now().toString();
+    BookData bookData = BookData();
     Directory dir = await booksDirectory;
     File file = File("${dir.path}/$name.json");
-    file = await file.writeAsString(jsonEncode({}));
+    file = await file.writeAsString(jsonEncode(bookData.toMap()));
     return Book(file: file);
   }
 }

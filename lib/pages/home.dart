@@ -21,7 +21,7 @@ class _HomePage extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("ST"),
+        title: const Text("StockTrace"),
       ),
       body: ListView(
         children: [
@@ -34,13 +34,21 @@ class _HomePage extends State<HomePage> {
                     children: books
                         .map(
                           (e) => ListTile(
+                            leading: const Icon(Icons.book),
                             title: Text(e.name),
                             onTap: () {
-                              Navigator.of(context).push(
+                              Navigator.of(context)
+                                  .push(
                                 MaterialPageRoute(
+                                  maintainState: false,
                                   builder: (context) => BookPage(book: e),
                                 ),
-                              );
+                              )
+                                  .then((value) {
+                                setState(() {
+                                  booksFuture = FileSystemApi().books;
+                                });
+                              });
                             },
                           ),
                         )
@@ -56,7 +64,7 @@ class _HomePage extends State<HomePage> {
         onPressed: () {
           newBook();
         },
-        child: const Text("+"),
+        child: const Icon(Icons.add),
       ),
     );
   }

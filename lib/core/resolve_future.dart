@@ -24,6 +24,20 @@ void resolveFuture<T>(
     }
   }).onError((error, stackTrace) {
     Navigator.pop(context);
+    ScaffoldMessenger.of(context).showMaterialBanner(
+      MaterialBanner(
+        leading: const Icon(Icons.error),
+        content: Text('Error: $error'),
+        actions: [
+          ElevatedButton(
+            onPressed: () {
+              ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+            },
+            child: const Icon(Icons.close),
+          )
+        ],
+      ),
+    );
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Error: $error'),

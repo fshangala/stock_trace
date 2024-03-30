@@ -3,8 +3,8 @@ import 'dart:io';
 
 import 'package:stock_trace/core/expense.dart';
 import 'package:stock_trace/core/product.dart';
+import 'package:stock_trace/core/sale.dart';
 import 'package:stock_trace/core/suply.dart';
-import 'package:stock_trace/sale.dart';
 
 class BookData {
   List<Product> products;
@@ -43,10 +43,11 @@ class Book {
     );
   }
 
-  Future<void> addProduct({required String name}) async {
+  Future<BookData> addProduct({required String name}) async {
     var product = Product(name: name);
     var bookData = await data;
     bookData.products.add(product);
     await file.writeAsString(jsonEncode(bookData.toMap()));
+    return await data;
   }
 }
